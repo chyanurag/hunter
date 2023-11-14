@@ -51,6 +51,7 @@ class Game:
                     self.enemies.add(Enemy(j*100, i*100, 'leftright'))
     
     def run(self):
+        pg.display.toggle_fullscreen()
         while True:
             for e in pg.event.get():
                 if e.type == pg.QUIT:
