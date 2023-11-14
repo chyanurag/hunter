@@ -23,22 +23,22 @@ class Game:
         pg.init()
         self.win = pg.display.set_mode((1200, 800))
         self.clock = pg.time.Clock()
-        self.FPS = 60
-        self.player = Player()
+        self.player = Player(pg.time.get_ticks())
         self.players = pg.sprite.Group()
         self.players.add(self.player)
         self.tiles = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
+        self.FPS = 60
         self.setup_tiles(level0)
 
     def draw(self):
-        self.win.fill(pg.Color('white'))
+        self.win.fill(pg.Color('black'))
         self.tiles.draw(self.win)
         self.players.draw(self.win)
         self.enemies.draw(self.win)
         self.tiles.update()
-        self.players.update(self.tiles)
-        self.enemies.update(self.tiles)
+        self.players.update(self.win, self.enemies, self.tiles)
+        self.enemies.update(self.tiles, self.enemies)
 
     def setup_tiles(self, level):
         for i in range(0, len(level)):
@@ -57,6 +57,8 @@ class Game:
                     pg.quit()
 
             self.draw()
+            if pg.key.get_pressed()[pg.K_f]:
+                self.player.fire(pg.time.get_ticks())
             pg.display.update()
             self.clock.tick(self.FPS)
 

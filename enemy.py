@@ -14,15 +14,23 @@ class Enemy(pg.sprite.Sprite):
         else:
             self.dir = 'left'
 
-    def update(self, tiles):
+    def update(self, tiles, enemies):
         if self.type == 'updown':
             if self.dir == 'up':
+                for enemy in enemies.sprites():
+                    if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y - 5, self.rect.width, self.rect.height)) and enemy != self:
+                        self.dir = 'down'
+                        return
                 for enemy in tiles.sprites():
                     if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y - 5, self.rect.width, self.rect.height)) or self.rect.y < 5:
                         self.dir = 'down'
                         return
                 self.rect.y -= 5
             if self.dir == 'down':
+                for enemy in enemies.sprites():
+                    if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y + 5, self.rect.width, self.rect.height)) and enemy != self:
+                        self.dir = 'up'
+                        return
                 for enemy in tiles.sprites():
                     if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y + 5, self.rect.width, self.rect.height)) or self.rect.y > 750:
                         self.dir = 'up'
@@ -30,12 +38,20 @@ class Enemy(pg.sprite.Sprite):
                 self.rect.y += 5
         elif self.type == 'leftright':
             if self.dir == 'left':
+                for enemy in enemies.sprites():
+                    if enemy.rect.colliderect(pg.Rect(self.rect.x - 5, self.rect.y, self.rect.width, self.rect.height)) and enemy != self:
+                        self.dir = 'right'
+                        return
                 for enemy in tiles.sprites():
                     if enemy.rect.colliderect(pg.Rect(self.rect.x - 5, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x < 5:
                         self.dir = 'right'
                         return
                 self.rect.x -= 5
             if self.dir == 'right':
+                for enemy in enemies.sprites():
+                    if enemy.rect.colliderect(pg.Rect(self.rect.x + 5, self.rect.y, self.rect.width, self.rect.height)) and enemy != self:
+                        self.dir = 'left'
+                        return
                 for enemy in tiles.sprites():
                     if enemy.rect.colliderect(pg.Rect(self.rect.x + 5, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x > 1195:
                         self.dir = 'left'
