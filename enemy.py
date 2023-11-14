@@ -8,6 +8,7 @@ class Enemy(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x + self.rect.width / 2
         self.rect.y = y + self.rect.height / 2
+        self.health = 100
         self.type = etype
         if self.type == 'updown':
             self.dir = 'down'
@@ -15,6 +16,8 @@ class Enemy(pg.sprite.Sprite):
             self.dir = 'left'
 
     def update(self, tiles, enemies):
+        if self.health < 0:
+            self.kill()
         if self.type == 'updown':
             if self.dir == 'up':
                 for enemy in enemies.sprites():

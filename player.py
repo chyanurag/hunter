@@ -14,34 +14,34 @@ class Player(pg.sprite.Sprite):
 
     def update(self, win, enemies, tiles):
         self.bullets.draw(win)
-        self.bullets.update(tiles)
+        self.bullets.update(tiles, enemies)
         key = pg.key.get_pressed()
         if key[pg.K_w]:
-            for enemy in enemies.sprites():
-                if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y - 10, self.rect.width, self.rect.height)) or self.rect.y < 5:
+            for enemy in tiles.sprites():
+                if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y - 5, self.rect.width, self.rect.height)) or self.rect.y < 5:
                     return
-            self.rect.y -= 10
+            self.rect.y -= 5
             self.dir = 'up'
         if key[pg.K_s]:
-            for enemy in enemies.sprites():
-                if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y + 10, self.rect.width, self.rect.height)) or self.rect.y+self.rect.height > 795:
+            for enemy in tiles.sprites():
+                if enemy.rect.colliderect(pg.Rect(self.rect.x, self.rect.y + 5, self.rect.width, self.rect.height)) or self.rect.y+self.rect.height > 795:
                     return
-            self.rect.y += 10
+            self.rect.y += 5
             self.dir = 'down'
         elif key[pg.K_a]:
-            for enemy in enemies.sprites():
-                if enemy.rect.colliderect(pg.Rect(self.rect.x - 10, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x < 5:
+            for enemy in tiles.sprites():
+                if enemy.rect.colliderect(pg.Rect(self.rect.x - 5, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x < 5:
                     return
-            self.rect.x -= 10
+            self.rect.x -= 5
             self.dir = 'left'
         elif key[pg.K_d]:
-            for enemy in enemies.sprites():
-                if enemy.rect.colliderect(pg.Rect(self.rect.x + 10, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x+self.rect.width > 1195:
+            for enemy in tiles.sprites():
+                if enemy.rect.colliderect(pg.Rect(self.rect.x + 5, self.rect.y, self.rect.width, self.rect.height)) or self.rect.x+self.rect.width > 1195:
                     return
-            self.rect.x += 10
+            self.rect.x += 5
             self.dir = 'right'
-    def fire(self, ticks):
-        if ticks - self.ticks > 1000:
+    def fire(self, ticks, enemies):
+        if ticks - self.ticks > 500:
             self.bullets.add(Bullet(self.rect.center[0], self.rect.center[1], self.dir))
             self.ticks = ticks
 

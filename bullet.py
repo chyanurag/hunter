@@ -9,7 +9,13 @@ class Bullet(pg.sprite.Sprite):
         self.rect.center = (x, y)
         self.direction = direction
 
-    def update(self, tiles):
+    def update(self, tiles, enemies):
+        for enemy in enemies.sprites():
+            if enemy.rect.colliderect(self.rect):
+                enemy.health -= 30
+                print(enemy.health)
+                print('hit')
+                self.kill()
         for tile in tiles.sprites():
             if tile.rect.colliderect(self.rect) or self.rect.x < 0 or self.rect.x > 1200 or self.rect.y < 0 or self.rect.y > 800:
                 self.kill()
